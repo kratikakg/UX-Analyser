@@ -83,6 +83,8 @@ def check_accessibility(soup):
     aria_tags = soup.find_all(attrs={"aria-label": True})
     landmarks = soup.find_all(['nav', 'header', 'footer', 'main', 'aside'])
     return len(aria_tags) > 0 or len(landmarks) > 0
+def check_https(url):
+    return urlparse(url).scheme == 'https'
 
 
 def analyze_webpage(url):
