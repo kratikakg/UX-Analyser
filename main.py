@@ -79,6 +79,10 @@ def check_page_load_speed(url):
         return load_time < 2
     except Exception as e:
         return False
+def check_accessibility(soup):
+    aria_tags = soup.find_all(attrs={"aria-label": True})
+    landmarks = soup.find_all(['nav', 'header', 'footer', 'main', 'aside'])
+    return len(aria_tags) > 0 or len(landmarks) > 0
 
 
 def analyze_webpage(url):
