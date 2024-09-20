@@ -68,6 +68,17 @@ def check_broken_links(soup, url):
             broken_links.append(link)
     return len(broken_links) == 0
 
+import time
+
+def check_page_load_speed(url):
+    start_time = time.time()
+    try:
+        response = requests.get(url)
+        load_time = time.time() - start_time
+        # Set a threshold for load time, e.g., 2 seconds
+        return load_time < 2
+    except Exception as e:
+        return False
 
 
 def analyze_webpage(url):
