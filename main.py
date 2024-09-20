@@ -85,6 +85,10 @@ def check_accessibility(soup):
     return len(aria_tags) > 0 or len(landmarks) > 0
 def check_https(url):
     return urlparse(url).scheme == 'https'
+def check_seo_tags(soup):
+    description = soup.find('meta', {'name': 'description'})
+    keywords = soup.find('meta', {'name': 'keywords'})
+    return description is not None and keywords is not None
 
 
 def analyze_webpage(url):
