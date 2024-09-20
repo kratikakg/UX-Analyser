@@ -4,7 +4,6 @@ from urllib.parse import urlparse
 import matplotlib.pyplot as plt
 import os
 
-# Predefined UX rules
 UX_RULES = {
     "1. Proper Heading Structure": lambda soup, url: check_headings_structure(soup),
     "2. Mobile Responsiveness": lambda soup, url: check_mobile_responsiveness(url),
@@ -22,7 +21,6 @@ UX_RULES = {
     "14. Cookie Consent Presence": lambda soup, url: check_cookie_consent(soup),
 }
 
-# Function to scrape the webpage
 def scrape_webpage(url):
     try:
         response = requests.get(url)
@@ -32,7 +30,6 @@ def scrape_webpage(url):
         print(f"Error accessing the URL: {e}")
         return None
     
-# Function definitions for each UX rule
 def check_headings_structure(soup):
     headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
     return len(headings) > 0
@@ -107,11 +104,9 @@ def check_image_optimization(soup):
                 response = requests.head(img['src'])
                 content_length = response.headers.get('content-length')
                 
-                # Ensure the content-length exists and is an integer
                 if content_length and content_length.isdigit():
                     content_length = int(content_length)
                     
-                    # If the content length is greater than 500 KB (500,000 bytes)
                     if content_length > 500000:
                         oversized_images.append(img['src'])
             except Exception as e:
@@ -130,7 +125,6 @@ def check_cookie_consent(soup):
     consent_keywords = ['cookie consent', 'accept cookies', 'privacy policy']
     return any(consent in soup.text.lower() for consent in consent_keywords)
 
-# Main function to analyze the webpage based on the UX rules
 def analyze_webpage(url):
     soup = scrape_webpage(url)
     if not soup:
@@ -143,7 +137,6 @@ def analyze_webpage(url):
     
     return results
 
-# Generate a report based on the analysis
 def generate_report(url):
     results = analyze_webpage(url)
     if not results:
@@ -156,12 +149,10 @@ def generate_report(url):
         else:
             report += f"✘ {rule} (Needs improvement)\n"
     
-    # Visualize the results
     generate_visualization(results, url)
     
     return report
 
-# Visualization function using matplotlib
 def generate_visualization(results, url):
     labels = list(results.keys())
     values = [1 if v else 0 for v in results.values()]
@@ -171,7 +162,6 @@ def generate_visualization(results, url):
     ax.set_xlabel('Pass (1) or Fail (0)')
     ax.set_title(f'UX Analysis Results for {url}')
 
-    # Save the graph as an image
     if not os.path.exists('reports'):
         os.makedirs('reports')
     plt.tight_layout()
@@ -181,7 +171,6 @@ def generate_visualization(results, url):
 
     print(f"Visualization saved as: {image_path}")
 
-# Input the webpage URL to analyze
 if __name__ == "__main__":
     url = input("Enter the webpage URL to analyze: ")
     report = generate_report(url)
