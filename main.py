@@ -102,6 +102,9 @@ def check_favicon(soup):
     favicon = soup.find('link', rel='icon')
     return favicon is not None
 
+def check_url_structure(url):
+    path = urlparse(url).path
+    return all(x.isalnum() or x == '/' for x in path)
 
 
 def analyze_webpage(url):
