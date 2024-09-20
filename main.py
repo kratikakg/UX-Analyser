@@ -8,6 +8,15 @@ UX_RULES = {
     "3. Text Readability (Contrast and Font Size)": lambda soup: check_text_readability(soup),
     "4. Alt Text for Images": lambda soup: check_image_alt_text(soup),
     "5. Presence of Call to Action (CTA)": lambda soup: check_cta_buttons(soup),
+    "6. No Broken Links": lambda soup, url: check_broken_links(soup, url),
+    "7. Page Load Speed": lambda url: check_page_load_speed(url),
+    "8. Accessibility for Screen Readers": lambda soup: check_accessibility(soup),
+    "9. HTTPS Security": lambda url: check_https(url),
+    "10. SEO Meta Tags": lambda soup: check_seo_tags(soup),
+    "11. Image Optimization": lambda soup: check_image_optimization(soup),
+    "12. Favicon Presence": lambda soup: check_favicon(soup),
+    "13. User-Friendly URL Structure": lambda url: check_url_structure(url),
+    "14. Cookie Consent Presence": lambda soup: check_cookie_consent(soup),
 }
 
 def scrape_webpage(url):
@@ -45,6 +54,21 @@ def check_cta_buttons(soup):
         if any(word in btn.text.lower() for word in cta_words):
             return True
     return False
+def check_broken_links(soup, url):
+    links = [a['href'] for a in soup.find_all('a', href=True)]
+    broken_links = []
+    for link in links:
+        try:
+            if link.startswith('/'):
+                link = urlparse(url).scheme + "://" + urlparse(url).netloc + link
+            response = requests.head(link)
+            if response.status_code != 200:
+                broken_links.append(link)
+        except Exception as e:
+            broken_links.append(link)
+    return len(broken_links) == 0
+
+
 
 def analyze_webpage(url):
     soup = scrape_webpage(url)
