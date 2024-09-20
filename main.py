@@ -89,6 +89,10 @@ def check_seo_tags(soup):
     description = soup.find('meta', {'name': 'description'})
     keywords = soup.find('meta', {'name': 'keywords'})
     return description is not None and keywords is not None
+def check_image_optimization(soup):
+    images = soup.find_all('img')
+    oversized_images = [img for img in images if 'src' in img.attrs and requests.head(img['src']).headers.get('content-length', 0) > 500000]
+    return len(oversized_images) == 0
 
 
 def analyze_webpage(url):
