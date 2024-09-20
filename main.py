@@ -106,6 +106,9 @@ def check_url_structure(url):
     path = urlparse(url).path
     return all(x.isalnum() or x == '/' for x in path)
 
+def check_cookie_consent(soup):
+    consent_keywords = ['cookie consent', 'accept cookies', 'privacy policy']
+    return any(consent in soup.text.lower() for consent in consent_keywords)
 
 def analyze_webpage(url):
     soup = scrape_webpage(url)
