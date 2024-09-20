@@ -79,23 +79,29 @@ def check_page_load_speed(url):
         return load_time < 2
     except Exception as e:
         return False
+    
 def check_accessibility(soup):
     aria_tags = soup.find_all(attrs={"aria-label": True})
     landmarks = soup.find_all(['nav', 'header', 'footer', 'main', 'aside'])
     return len(aria_tags) > 0 or len(landmarks) > 0
+
 def check_https(url):
     return urlparse(url).scheme == 'https'
+
 def check_seo_tags(soup):
     description = soup.find('meta', {'name': 'description'})
     keywords = soup.find('meta', {'name': 'keywords'})
     return description is not None and keywords is not None
+
 def check_image_optimization(soup):
     images = soup.find_all('img')
     oversized_images = [img for img in images if 'src' in img.attrs and requests.head(img['src']).headers.get('content-length', 0) > 500000]
     return len(oversized_images) == 0
+
 def check_favicon(soup):
     favicon = soup.find('link', rel='icon')
     return favicon is not None
+
 
 
 def analyze_webpage(url):
