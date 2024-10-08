@@ -13,12 +13,7 @@ UX_RULES = {
     "6. No Broken Links": lambda soup, url: check_broken_links(soup, url),
     "7. Page Load Speed": lambda soup, url: check_page_load_speed(url),
     "8. Accessibility for Screen Readers": lambda soup, url: check_accessibility(soup),
-    "9. HTTPS Security": lambda soup, url: check_https(url),
-    "10. SEO Meta Tags": lambda soup, url: check_seo_tags(soup),
-    "11. Image Optimization": lambda soup, url: check_image_optimization(soup),
-    "12. Favicon Presence": lambda soup, url: check_favicon(soup),
-    "13. User-Friendly URL Structure": lambda soup, url: check_url_structure(url),
-    "14. Cookie Consent Presence": lambda soup, url: check_cookie_consent(soup),
+    "9. Favicon Presence": lambda soup, url: check_favicon(soup),
 }
 
 def scrape_webpage(url):
@@ -86,44 +81,9 @@ def check_accessibility(soup):
     landmarks = soup.find_all(['nav', 'header', 'footer', 'main', 'aside'])
     return len(aria_tags) > 0 or len(landmarks) > 0
 
-def check_https(url):
-    return urlparse(url).scheme == 'https'
-
-def check_seo_tags(soup):
-    description = soup.find('meta', {'name': 'description'})
-    keywords = soup.find('meta', {'name': 'keywords'})
-    return description is not None and keywords is not None
-
-def check_image_optimization(soup):
-    images = soup.find_all('img')
-    oversized_images = []
-    
-    for img in images:
-        if 'src' in img.attrs:
-            try:
-                response = requests.head(img['src'])
-                content_length = response.headers.get('content-length')
-                
-                if content_length and content_length.isdigit():
-                    content_length = int(content_length)
-                    
-                    if content_length > 500000:
-                        oversized_images.append(img['src'])
-            except Exception as e:
-                print(f"Error processing image {img['src']}: {e}")
-    
-    return len(oversized_images) == 0
 def check_favicon(soup):
     favicon = soup.find('link', rel='icon')
     return favicon is not None
-
-def check_url_structure(url):
-    path = urlparse(url).path
-    return all(x.isalnum() or x == '/' for x in path)
-
-def check_cookie_consent(soup):
-    consent_keywords = ['cookie consent', 'accept cookies', 'privacy policy']
-    return any(consent in soup.text.lower() for consent in consent_keywords)
 
 def analyze_webpage(url):
     soup = scrape_webpage(url)
