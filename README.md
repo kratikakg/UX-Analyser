@@ -41,7 +41,10 @@ In short, this project helps websites become more user-friendly, accessible, and
 
 
 ## Demo
-
+- Resulting Analysis:
+![Screenshot (33)](https://github.com/user-attachments/assets/ec366ecd-f8c0-4808-8ffa-42df3ff685e2)
+- Visual Report Generation:
+![Screenshot (32)](https://github.com/user-attachments/assets/6a6be036-67a6-4f8d-84f4-8755af1331a7)
 
 
 
