@@ -11,7 +11,7 @@ In short, this project helps websites become more user-friendly, accessible, and
 
 ## Features
 
-- **Proper Heading Structure:** Ensures the webpage has a logical and hierarchical structure of headings (<h1> to <h6>).
+- **Proper Heading Structure:** Ensures the webpage has a logical and hierarchical structure of headings.
 - **Mobile Responsiveness:** Checks if the webpage includes a viewport meta tag, indicating mobile-friendly design.
 - **Text Readability:** Evaluates the presence of readable text (e.g., paragraphs) on the webpage.
 - **Alt Text for Images:** Verifies that all images include descriptive alt text for accessibility.
